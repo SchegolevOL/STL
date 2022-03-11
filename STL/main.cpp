@@ -17,7 +17,6 @@ using namespace std;
 
 
 
-
 int main()
 {
     SetConsoleCP(1251);
@@ -118,6 +117,7 @@ int main()
         cout << i << tab;
     cout << endl;
 #endif // STL_DEQUE
+
 #ifdef STL_LIST
     std::list<int>my_list = { 1,2,3,4,5,6,7,8,9,10 };
     int data;
@@ -143,6 +143,7 @@ int main()
     my_list.insert(it, data);
     for (int i : my_list)cout << i << tab; cout << endl;
 #endif // STL_LIST
+
 #ifdef STL_FORVARD_LIST
     forward_list<int>my_f_list = { 1,2,3,5,8,13,21,34 };
     int data;

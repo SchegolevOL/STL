@@ -80,27 +80,6 @@ int main()
 			break;
 		}
 	} while (key != '0');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/*save(base, "base.txt");*/
 	//add(base);
 
@@ -154,7 +133,62 @@ void save(const std::map<std::string, std::list <Crime>>& base, const std::strin
 	std::string comand = std::string("start notepad ") + file_name;//строка для командной строки	
 	system(comand.c_str());
 }
+
 void load(std::map<std::string, std::list <Crime>>& base, const std::string& file_name)
+{
+	std::ifstream fin(file_name);
+	if (fin.is_open())
+	{
+		while (!fin.eof())
+		{
+			std::string licence_plate;
+			int id;
+			std::string plase;
+			std::string crimes;
+			std::getline(fin, licence_plate, ':');
+			std::getline(fin, crimes);
+			if (crimes.empty())continue;
+
+			char* pch;
+			char* str;
+			pch = strtok((crimes, " ,;:");
+			while (pch != NULL)
+			{
+				
+				pch = strtok(NULL, " ,.-");
+			}
+
+			/*if (crimes.find(',') != std::string::npos)
+			{
+				for (int start = 0, end = crimes.find(','); end != std::string::npos; start = end)
+				{
+					end = crimes.find(',', start + 1);
+					plase = crimes.substr(start + 1, end);
+					plase.erase(0, plase.find_first_not_of(' '));
+					id = std::stoi(plase.substr(0, plase.find_first_of(' ')));
+					plase.erase(0, plase.find_first_of(' ') + 1);
+					base[licence_plate].push_back(Crime(id, plase));
+				}
+			}
+			else
+			{
+				id = std::stoi(crimes.substr(0, crimes.find_first_of(' ')));
+				crimes.erase(0, crimes.find_first_of(' ') + 1);
+				base[licence_plate].push_back(Crime(id, crimes));
+			}*/
+
+
+		}
+		fin.close();
+	}
+	else
+	{
+		std::cerr << "Erorr: file not found" << endl;
+	}
+}
+
+
+/*void load(std::map<std::string, std::list <Crime>>& base, const std::string& file_name)
 {
 	std::ifstream fin(file_name);
 	if (fin.is_open())
@@ -195,7 +229,7 @@ void load(std::map<std::string, std::list <Crime>>& base, const std::string& fil
 	{
 		std::cerr << "Erorr: file not found" << endl;
 	}
-}
+}*/
 std::ofstream& operator<<(std::ofstream& ofs, const Crime& obj)
 {
 	ofs << obj.get_id() << " " << obj.get_plase();

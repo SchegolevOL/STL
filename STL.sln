@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssiciativeContainers", "As
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DatabasePolice", "DatabasePolice\DatabasePolice.vcxproj", "{1FB29510-0F4F-4E27-A06A-13D8DD231E5B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Polise", "Polise\Polise.vcxproj", "{4420640A-E5C8-4F4F-AFA8-5EC2DD58E474}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{1FB29510-0F4F-4E27-A06A-13D8DD231E5B}.Release|x64.Build.0 = Release|x64
 		{1FB29510-0F4F-4E27-A06A-13D8DD231E5B}.Release|x86.ActiveCfg = Release|Win32
 		{1FB29510-0F4F-4E27-A06A-13D8DD231E5B}.Release|x86.Build.0 = Release|Win32
+		{4420640A-E5C8-4F4F-AFA8-5EC2DD58E474}.Debug|x64.ActiveCfg = Debug|x64
+		{4420640A-E5C8-4F4F-AFA8-5EC2DD58E474}.Debug|x64.Build.0 = Debug|x64
+		{4420640A-E5C8-4F4F-AFA8-5EC2DD58E474}.Debug|x86.ActiveCfg = Debug|Win32
+		{4420640A-E5C8-4F4F-AFA8-5EC2DD58E474}.Debug|x86.Build.0 = Debug|Win32
+		{4420640A-E5C8-4F4F-AFA8-5EC2DD58E474}.Release|x64.ActiveCfg = Release|x64
+		{4420640A-E5C8-4F4F-AFA8-5EC2DD58E474}.Release|x64.Build.0 = Release|x64
+		{4420640A-E5C8-4F4F-AFA8-5EC2DD58E474}.Release|x86.ActiveCfg = Release|Win32
+		{4420640A-E5C8-4F4F-AFA8-5EC2DD58E474}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

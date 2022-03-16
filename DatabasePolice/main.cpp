@@ -3,6 +3,7 @@
 #include<map>
 #include<list>
 #include<conio.h>
+#include<string.h>
 using namespace std;
 
 #define tab "\t"
@@ -11,12 +12,10 @@ int main()
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-	char key;
-	
+	char key;	
 	std::map<std::string, std::list<std::string>>::iterator it1;
 	std::map<std::string, std::list<std::string>>::iterator it2;
-	std::map<std::string, std::list<std::string>> data_base
-		
+	std::map<std::string, std::list<std::string>> data_base		
 	{
 		{"O123TM",{"Штраф за привышение скорости","Штраф за парковку в неположеном месте","Штраф за обгон"}},
 		{"O145TM",{"Штраф за привышение скорости","Штраф за парковку в неположеном месте"}},
@@ -41,7 +40,7 @@ int main()
 		case '1':
 		{
 			cout << "Введите номер машины : "; cin >> add_elem.first;
-			cout << "Введите штраф : "; cin >> tmp1;
+			cout << "Введите штраф : ";  (tmp1);
 			add_elem.second.push_back(tmp1);
 			it1 = data_base.find(add_elem.first);
 			if (it1!=data_base.end())
@@ -65,6 +64,7 @@ int main()
 			else
 			{
 				cout<<"Номер не существует!!!";
+				key = _getch();
 			}
 			break;
 		}
@@ -107,9 +107,5 @@ int main()
 			break;
 		}
 	} while (key!='0');
-	
-
-
-
 	return 0;
 }

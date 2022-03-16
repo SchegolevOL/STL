@@ -1,7 +1,10 @@
-﻿#include <iostream>
+﻿
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
 #include <Windows.h>
 #include<map>
 #include<list>
+#include<algorithm>
 #include<conio.h>
 #include<string>
 #include<fstream>
@@ -11,6 +14,10 @@ using namespace std;
 #define tab "\t"
 
 void print(const std::map<std::string, std::list <Crime>>& base);
+void print(const std::map<std::string, std::list <Crime>>& base, const std::string& licence_plate);
+void print(const std::map<std::string, std::list <Crime>>& base, const std::string& licence_plate_first,
+	const std::string& licence_plate_last);
+
 void add(std::map<std::string, std::list<Crime>>& base);
 void save(const std::map<std::string, std::list <Crime>>& base, const std::string& file_name);
 void load(std::map<std::string, std::list <Crime>>& base, const std::string& file_name);
@@ -27,8 +34,8 @@ int main()
 		{"s456rt",{Crime(5,"Мира"),Crime(6,"Октябрьская")}},
 		{"o987cb",{Crime(3,"Пушкина"),Crime(4,"Маяковского")}}
 	};
-	load(base, "base.txt");
-	print(base);
+	/*load(base, "base.txt");
+	print(base);*/
 	char key;
 	do
 	{
@@ -40,6 +47,7 @@ int main()
 		cout << "\t3. Полная распечатка базы." << endl;
 		cout << "\t4. Распечатка данных по диапазону номеров." << endl;
 		cout << "\t5. Чтение базы из файла." << endl;
+		cout << "\t6. Распечатка по номеру." << endl;
 		cout << "\t0. Выход." << endl;
 		key = _getch();
 		switch (key)
@@ -51,7 +59,7 @@ int main()
 		}
 		case '2':
 		{
-			save(base, "Base");
+			save(base, "Base.txt");
 			break;
 		}
 		case '3':
@@ -62,12 +70,32 @@ int main()
 		}
 		case '4':
 		{
+			std::string number1;
+			cout << "Введите номер1 : ";
+			getline(cin, number1);
+			std::string number2;
+			cout << "Введите номер2 : ";
+			getline(cin, number2);
+
+			print(base, number1, number2);
+			key = _getch();
 			
 			break;
 		}
 		case '5':
 		{
-			load(base, "Base");
+			load(base, "Base.txt");
+			break;
+		}
+		case '6':
+		{
+			std::string number;
+			cout << "Введите номер : ";
+			getline(cin,number);
+			
+			
+			print(base, number);
+			key = _getch();
 			break;
 		}
 		case '0':
@@ -101,6 +129,45 @@ void print(const std::map<std::string, std::list <Crime>>& base)
 			cout << *jt<<endl;
 		}
 		cout <<"---------------------------------------------------------------" << endl;
+	}
+}
+void print(const std::map<std::string, std::list <Crime>>& base, const std::string& licence_plate)
+{
+	try
+	{
+		cout << licence_plate << ":\n";
+		cout << "---------------------------------------------------------------" << endl;
+		for (std::list<Crime>::const_iterator it = base.at(licence_plate).begin();
+			it != base.at(licence_plate).end(); ++it)
+		{
+			cout << *it << endl;
+		}
+	}
+	catch (...)
+	{
+		std::cerr << "Error";
+	}
+}
+void print(const std::map<std::string, std::list <Crime>>& base, const std::string& licence_plate_first, 
+	const std::string& licence_plate_last)
+{
+	try
+	{
+		for (std::map<std::string, std::list <Crime>>::const_iterator it = base.lower_bound(licence_plate_first);
+			it != base.upper_bound(licence_plate_last); 
+			++it)
+		{
+			cout << it->first << " : \n";
+			for (std::list<Crime>::const_iterator jt = it->second.begin();
+				jt != it->second.end(); ++jt)
+			{
+				cout << *jt << endl;
+			}
+		}
+	}
+	catch (...)
+	{
+		std::cerr << "Error";
 	}
 }
 void add(std::map<std::string, std::list<Crime>>& base)
@@ -143,41 +210,26 @@ void load(std::map<std::string, std::list <Crime>>& base, const std::string& fil
 		{
 			std::string licence_plate;
 			int id;
+			
 			std::string plase;
 			std::string crimes;
 			std::getline(fin, licence_plate, ':');
 			std::getline(fin, crimes);
 			if (crimes.empty())continue;
-
-			char* pch;
-			char* str;
-			pch = strtok((crimes, " ,;:");
-			while (pch != NULL)
+			char* sz_crimes = new char[crimes.size() + 1];
+			std::strcpy(sz_crimes, crimes.c_str());
+			char sz_delimiters[] = ",;";
+			for (char* pch = strtok(sz_crimes, sz_delimiters); pch; pch = strtok(NULL, sz_delimiters))
 			{
-				
-				pch = strtok(NULL, " ,.-");
+				id = std::atoi(pch);
+				while (*pch == ' ')pch++;
+				pch = std::strchr(pch, ' ')+1;
+				/*if(std::find(base.at(licence_plate).begin(), base.at(licence_plate).end(), Crime(id,pch))==base.at(licence_plate).end())
+					base[licence_plate].push_back(Crime(id, pch));*/
+				if (std::find(base[licence_plate].begin(), base[licence_plate].end(), Crime(id, pch)) == base[licence_plate].end())
+					base[licence_plate].push_back(Crime(id, pch));
 			}
-
-			/*if (crimes.find(',') != std::string::npos)
-			{
-				for (int start = 0, end = crimes.find(','); end != std::string::npos; start = end)
-				{
-					end = crimes.find(',', start + 1);
-					plase = crimes.substr(start + 1, end);
-					plase.erase(0, plase.find_first_not_of(' '));
-					id = std::stoi(plase.substr(0, plase.find_first_of(' ')));
-					plase.erase(0, plase.find_first_of(' ') + 1);
-					base[licence_plate].push_back(Crime(id, plase));
-				}
-			}
-			else
-			{
-				id = std::stoi(crimes.substr(0, crimes.find_first_of(' ')));
-				crimes.erase(0, crimes.find_first_of(' ') + 1);
-				base[licence_plate].push_back(Crime(id, crimes));
-			}*/
-
-
+			delete[]sz_crimes;
 		}
 		fin.close();
 	}
@@ -202,6 +254,9 @@ void load(std::map<std::string, std::list <Crime>>& base, const std::string& fil
 			std::getline(fin, licence_plate, ':');
 			std::getline(fin, crimes);
 			if (crimes.empty())continue;
+
+
+
 			if (crimes.find(',') != std::string::npos)
 			{
 				for (int start = 0, end = crimes.find(','); end != std::string::npos; start = end)
@@ -230,6 +285,7 @@ void load(std::map<std::string, std::list <Crime>>& base, const std::string& fil
 		std::cerr << "Erorr: file not found" << endl;
 	}
 }*/
+
 std::ofstream& operator<<(std::ofstream& ofs, const Crime& obj)
 {
 	ofs << obj.get_id() << " " << obj.get_plase();

@@ -15,8 +15,8 @@ using namespace std;
 
 void print(const std::map<std::string, std::list <Crime>>& base);
 void print(const std::map<std::string, std::list <Crime>>& base, const std::string& licence_plate);
-void print(const std::map<std::string, std::list <Crime>>& base, const std::string& licence_plate_first,
-	const std::string& licence_plate_last);
+void print(const std::map<std::string, std::list <Crime>>& base, const std::string& licence_plate_first, const std::string& licence_plate_last);
+void print(const std::map<std::string, std::list <Crime>>& base, const std::size_t id);
 
 void add(std::map<std::string, std::list<Crime>>& base);
 void save(const std::map<std::string, std::list <Crime>>& base, const std::string& file_name);
@@ -48,6 +48,7 @@ int main()
 		cout << "\t4. Распечатка данных по диапазону номеров." << endl;
 		cout << "\t5. Чтение базы из файла." << endl;
 		cout << "\t6. Распечатка по номеру." << endl;
+		cout << "\t7. Распечатка по номеру правонарушения." << endl;
 		cout << "\t0. Выход." << endl;
 		key = _getch();
 		switch (key)
@@ -95,6 +96,16 @@ int main()
 			
 			
 			print(base, number);
+			key = _getch();
+			break;
+		}
+		case '7':
+		{
+			std::size_t id;
+			for (size_t i = 1; i < crimes.size()+1; i++)cout <<i<< ". " << crimes.at(i) << endl;
+			cout << "Введите номер правонарушения: ";
+			cin>>id;
+			print(base,id);
 			key = _getch();
 			break;
 		}
@@ -170,6 +181,31 @@ void print(const std::map<std::string, std::list <Crime>>& base, const std::stri
 		std::cerr << "Error";
 	}
 }
+void print(const std::map<std::string, std::list <Crime>>& base, const std::size_t id)
+{
+	bool f = 0;
+	try
+	{
+		cout << crimes.at(id)<<endl;
+	}
+	catch (...)
+	{
+		std::cerr << "no offense found"<<endl;
+	}	
+	for (std::map<std::string,std::list<Crime>>::const_iterator it = base.begin(); it!= base.end(); ++it)
+	{	
+		bool f = 0;	
+		for (std::list<Crime>::const_iterator jt = it->second.begin(); jt != it->second.end(); ++jt)
+		{
+			if (jt->get_id() == id)f = 1;
+		}
+		if(f)cout << it->first <<endl;
+		
+	}
+	cout <<"---------------------------------------------------------------" << endl;
+}
+
+
 void add(std::map<std::string, std::list<Crime>>& base)
 {
 	std::string licence_plate;
